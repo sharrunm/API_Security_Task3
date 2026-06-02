@@ -1,0 +1,252 @@
+# API Security Risk Analysis Report
+
+## Future Interns – Cyber Security Task 3 (2026)
+
+### Prepared By
+
+SHARRUN
+
+### Date
+
+June 2026
+
+---
+
+# 1. Executive Summary
+
+An API Security Risk Analysis was conducted on the JSONPlaceholder public testing API using Postman on Kali Linux. The objective was to identify common API security risks through read-only testing and documentation review.
+
+The assessment focused on authentication, authorization, data exposure, and API security best practices. No exploitation attempts were performed during testing.
+
+---
+
+# 2. Scope
+
+### Target API
+
+https://jsonplaceholder.typicode.com
+
+### Testing Type
+
+Read-Only Security Assessment
+
+### Environment
+
+* Kali Linux Virtual Machine
+* Postman
+* Web Browser
+
+### Out of Scope
+
+* Exploitation attempts
+* Denial of Service testing
+* Authentication bypass
+* Any destructive activity
+
+---
+
+# 3. Methodology
+
+The following methodology was used during the assessment:
+
+1. Reviewed API documentation.
+2. Tested publicly available endpoints using Postman.
+3. Inspected API responses and returned data.
+4. Evaluated authentication requirements.
+5. Analyzed authorization controls.
+6. Assessed potential data exposure risks.
+7. Documented findings and remediation recommendations.
+
+---
+
+# 4. API Endpoints Tested
+
+### Endpoint 1
+
+GET /users
+
+Purpose:
+Retrieve user information.
+
+### Endpoint 2
+
+GET /users/1
+
+Purpose:
+Retrieve User 1 information.
+
+### Endpoint 3
+
+GET /users/2
+
+Purpose:
+Retrieve User 2 information.
+
+---
+
+# 5. Findings
+
+## Finding 1: Unauthenticated Access
+
+### Observation
+
+The API allows access to user information without requiring authentication tokens, API keys, or user login.
+
+### Evidence
+
+Requests to the API successfully returned data without any authentication mechanism.
+
+### Severity
+
+Medium
+
+### Business Impact
+
+If implemented in a production environment, unauthenticated access may allow unauthorized users to retrieve sensitive information.
+
+### Recommendation
+
+* Implement authentication mechanisms such as JWT.
+* Require API keys for public access.
+* Enforce user authentication before returning sensitive data.
+
+---
+
+## Finding 2: Excessive Data Exposure
+
+### Observation
+
+The API response returned detailed user information including:
+
+* Name
+* Username
+* Email Address
+* Phone Number
+* Website
+* Company Information
+* Address Information
+* Geographic Coordinates
+
+### Sample Response Data
+
+User 1:
+
+* Name: Leanne Graham
+* Email: [Sincere@april.biz](mailto:Sincere@april.biz)
+
+User 2:
+
+* Name: Ervin Howell
+* Email: [Shanna@melissa.tv](mailto:Shanna@melissa.tv)
+
+### Severity
+
+Medium
+
+### Business Impact
+
+Exposing excessive information may increase privacy risks and provide attackers with useful reconnaissance data.
+
+### Recommendation
+
+* Return only necessary fields.
+* Apply the principle of least privilege.
+* Mask sensitive information when possible.
+
+---
+
+## Finding 3: Potential Broken Object Level Authorization (BOLA)
+
+### Observation
+
+User information could be accessed by modifying the user identifier in the API request.
+
+Example:
+
+GET /users/1
+
+returned User 1 information.
+
+Changing the request to:
+
+GET /users/2
+
+returned User 2 information.
+
+### Evidence
+
+User 1 Response:
+
+* ID: 1
+* Name: Leanne Graham
+* Email: [Sincere@april.biz](mailto:Sincere@april.biz)
+
+User 2 Response:
+
+* ID: 2
+* Name: Ervin Howell
+* Email: [Shanna@melissa.tv](mailto:Shanna@melissa.tv)
+
+### Severity
+
+High
+
+### Business Impact
+
+In a real-world application lacking authorization checks, attackers may gain access to records belonging to other users simply by modifying object identifiers.
+
+This could lead to unauthorized access, privacy violations, and regulatory compliance issues.
+
+### Recommendation
+
+* Implement object-level authorization checks.
+* Verify user ownership before returning records.
+* Use Role-Based Access Control (RBAC).
+* Log and monitor sensitive resource access.
+
+### Note
+
+JSONPlaceholder is intentionally designed as a testing API. This observation demonstrates how a similar pattern could become a security vulnerability in a production application if authorization controls are not implemented.
+
+---
+
+# 6. Risk Summary
+
+| Finding                 | Severity |
+| ----------------------- | -------- |
+| Unauthenticated Access  | Medium   |
+| Excessive Data Exposure | Medium   |
+| Potential BOLA          | High     |
+
+---
+
+# 7. Recommendations
+
+The following security improvements are recommended:
+
+1. Implement strong authentication mechanisms.
+2. Enforce authorization checks for every API request.
+3. Reduce unnecessary data exposure.
+4. Apply Role-Based Access Control (RBAC).
+5. Log and monitor API access activities.
+6. Regularly review API security against OWASP API Security Top 10 guidelines.
+
+---
+
+# 8. Conclusion
+
+The assessment identified several common API security risks that security professionals typically review during API security audits. While the tested API is intentionally designed for educational purposes, the observations demonstrate how similar weaknesses could impact real-world SaaS applications.
+
+Implementing authentication, authorization, and data minimization controls would significantly improve API security and reduce business risk.
+
+---
+
+# Screenshots Included
+
+1. users_endpoint.png
+2. bola_user1.png
+3. bola_user2.png
+
+End of Report
+
+

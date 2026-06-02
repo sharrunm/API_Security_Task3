@@ -1,0 +1,10 @@
+Target API:
+https://jsonplaceholder.typicode.com
+
+Endpoints Tested:
+GET /users
+GET /users/1
+GET /users/2
+
+Tool Used:
+Postman
